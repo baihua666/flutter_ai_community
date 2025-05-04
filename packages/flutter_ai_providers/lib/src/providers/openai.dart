@@ -137,6 +137,11 @@ class OpenAIProvider extends LlmProvider with ChangeNotifier {
           return ChatCompletionMessage.assistant(
             content: message.text ?? '',
           );
+
+        case MessageOrigin.system:
+          return ChatCompletionMessage.system(
+            content: message.text ?? '',
+          );
       }
     }).toList(growable: false);
   }
