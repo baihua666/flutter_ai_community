@@ -158,11 +158,6 @@ class AnthropicProvider extends LlmProvider with ChangeNotifier {
             role: MessageRole.assistant,
             content: MessageContent.text(message.text ?? ''),
           );
-        case MessageOrigin.system:
-          return Message(
-            role: MessageRole.user,
-            content: MessageContent.text(message.text ?? ''),
-          );
       }
     }).toList(growable: false);
   }
