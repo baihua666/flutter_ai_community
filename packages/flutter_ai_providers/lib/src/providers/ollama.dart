@@ -124,6 +124,12 @@ class OllamaProvider extends LlmProvider with ChangeNotifier {
             role: MessageRole.assistant,
             content: message.text ?? '',
           );
+
+        case MessageOrigin.system:
+          return Message(
+            role: MessageRole.system,
+            content: message.text ?? '',
+          );
       }
     }).toList(growable: false);
   }
