@@ -81,6 +81,34 @@ class OpenAIProvider extends LlmProvider with ChangeNotifier {
   }
 
   @override
+  Stream<String> sendSystemMessageStream(
+      String prompt, {
+        Iterable<Attachment> attachments = const [],
+      }) async* {
+    final systemMessage = ChatMessage(origin: MessageOrigin.system, text: prompt, attachments: attachments);
+    final llmMessage = ChatMessage.llm();
+    _history.addAll([systemMessage]);
+
+    final messages = _mapToOpenAIMessages(_history);
+    final stream = _generateStream(messages);
+
+    // don't write this code if you're targeting the web until this is fixed:
+    // https://github.com/dart-lang/sdk/issues/47764
+    // await for (final chunk in stream) {
+    //   llmMessage.append(chunk);
+    //   yield chunk;
+    // }
+
+    yield* stream.map((chunk) {
+      llmMessage.append(chunk);
+      return chunk;
+    });
+
+    // notify listeners that the history has changed when response is complete
+    notifyListeners();
+  }
+
+  @override
   Iterable<ChatMessage> get history => _history;
 
   @override
