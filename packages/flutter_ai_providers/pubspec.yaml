@@ -22,7 +22,14 @@ dependencies:
   flutter_ai_toolkit:
     path: ../../../flutter_ai_toolkit
   ollama_dart: ^0.2.2+1
-  openai_dart: ^0.4.5
+#  openai_dart: ^0.4.5
+  # 原码里面，返回数据格式和字节bots模型不兼容，使用定制版本
+  # https://github.com/davidmigloz/langchain_dart/pull/777
+  #  openai_dart: ^0.4.5
+  openai_dart:
+    git:
+      url: git@github.com:baihua666/langchain_dart.git
+      path: packages/openai_dart
   http: ^1.3.0
 
 dev_dependencies:
